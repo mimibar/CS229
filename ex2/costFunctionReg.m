@@ -27,7 +27,6 @@ h=sigmoid(H);
 
 j=1;
 for i=1:m
-  %  J=J -y(i)*log(s(i))-(1-y(i))*log(1-s(i));
     grad(j)= grad(j)+ (h(i)-y(i))*X(i,j);
 end
 %Since we want the sum of the products, we can use a vector multiplication.
@@ -36,19 +35,16 @@ end
 %result of (1 x 1), a scalar.
 J=-y'*log(h)-(1-y)'*log(1-h)
 
-J=J/m;
+J=J/m;%This is the unregularized cost.
 grad(j)= grad(j)/m ;
 
 % you should not be regularizing the theta(1) parameter
 % (which corresponds to theta0) in the code
-% for j=2:t%n
-%     J=J+(lambda/2*m)*theta(j)^2;
-% end
 T = theta;
 T(1)=0;
 T=T'*T;
-J=J+(lambda/2*m)*T;
-
+%Be sure you use enough sets of parenthesis to get the correct result.
+J=J+(lambda/(2*m))*T;
 for j=2:t
     for i=1:m
         grad(j)= grad(j)+ (h(i)-y(i))*X(i,j);
