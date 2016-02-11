@@ -9,7 +9,7 @@ m = length(y); % number of training examples
 
 % You need to return the following variables correctly 
 J = 0;
-grad = zeros(size(theta));
+grad = zeros(size(theta));%the gradient of the cost
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
@@ -19,11 +19,23 @@ grad = zeros(size(theta));
 %
 % Note: grad should have the same dimensions as theta
 %
+t=length(theta);
+for i=1:m
+    x=X(i,:)';%Lower-case x typically indicates a single training example.
+    h= 1/(1+1/exp(- theta' * x));%Theta transpose h, a scalar for one training example
+    
+    %Cost
+    J=J -y(i)*log(h)-(1-y(i))*log(1-h);
+    
+    %Gradient
+    for j=1:t
+        grad(j)= grad(j)+ (h-y(i))*X(i,j);
+    end
 
+end
 
-
-
-
+J=J/m;
+grad(j)= grad(j)/m;
 
 
 
