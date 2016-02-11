@@ -20,25 +20,38 @@ grad = zeros(size(theta));%the gradient of the cost
 % Note: grad should have the same dimensions as theta
 %
 t=length(theta);
+% H (a vector of all the hypothesis values for the entire training set) as 
+% X * theta, with dimensions of (m x 1).
+H=X*theta ;
+s=sigmoid(H);
+
+% Cost
 for i=1:m
-    x=X(i,:)';%Lower-case x typically indicates a single training example.
-    h= 1/(1+1/exp(- theta' * x));%Theta transpose h, a scalar for one training example
-    
-    %Cost
-    J=J -y(i)*log(h)-(1-y(i))*log(1-h);
-    
-    %Gradient
-    for j=1:t
-        grad(j)= grad(j)+ (h-y(i))*X(i,j);
-    end
-
+    J=J -y(i)*log(s(i))-(1-y(i))*log(1-s(i));
 end
-
 J=J/m;
-grad(j)= grad(j)/m;
 
-
+%Gradient
+for j=1:t
+    for i=1:m
+        grad(j)= grad(j)+ (s(i)-y(i))*X(i,j);
+    end
+    grad(j)= grad(j)/m;
+end
 
 % =============================================================
 
 end
+
+%testcase
+%! X = [ones(4,1) magic(4)];
+%! y = [1 0 1 0]';
+%! theta=[-1 2 -3 4 -5]'
+%!assert(costFunction(theta, X, y),0.693);
+% j =  22.000
+% g =
+%   -0.25000
+%   -5.25000
+%    1.25000
+%    1.50000
+%   -6.00000
