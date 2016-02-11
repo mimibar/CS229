@@ -21,15 +21,21 @@ t=length(theta);
 % H (a vector of all the hypothesis values for the entire training set) as 
 % X * theta, with dimensions of (m x 1).
 H=X*theta ;
-s=sigmoid(H);
+h=sigmoid(H);
 
 % Cost & Gradient
 
 j=1;
 for i=1:m
-    J=J -y(i)*log(s(i))-(1-y(i))*log(1-s(i));
-    grad(j)= grad(j)+ (s(i)-y(i))*X(i,j);
+  %  J=J -y(i)*log(s(i))-(1-y(i))*log(1-s(i));
+    grad(j)= grad(j)+ (h(i)-y(i))*X(i,j);
 end
+%Since we want the sum of the products, we can use a vector multiplication.
+%The size of each argument is (m x 1), and we want the vector product to be
+%a scalar, so use a transposition so that (1 x m) times (m x 1) gives a
+%result of (1 x 1), a scalar.
+J=-y'*log(h)-(1-y)'*log(1-h)
+
 J=J/m;
 grad(j)= grad(j)/m ;
 
@@ -45,7 +51,7 @@ J=J+(lambda/2*m)*T;
 
 for j=2:t
     for i=1:m
-        grad(j)= grad(j)+ (s(i)-y(i))*X(i,j);
+        grad(j)= grad(j)+ (h(i)-y(i))*X(i,j);
     end
     grad(j)= grad(j)/m + (lambda/m)*theta(j);
 end
