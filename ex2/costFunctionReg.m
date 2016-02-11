@@ -24,8 +24,7 @@ H=X*theta ;
 s=sigmoid(H);
 
 % Cost & Gradient
-% you should not be regularizing
-% the theta(1) parameter (which corresponds to 0) in the code
+
 j=1;
 for i=1:m
     J=J -y(i)*log(s(i))-(1-y(i))*log(1-s(i));
@@ -34,16 +33,22 @@ end
 J=J/m;
 grad(j)= grad(j)/m ;
 
+% you should not be regularizing the theta(1) parameter
+% (which corresponds to theta0) in the code
+% for j=2:t%n
+%     J=J+(lambda/2*m)*theta(j)^2;
+% end
+T = theta;
+T(1)=0;
+T=T'*T;
+J=J+(lambda/2*m)*T;
+
 for j=2:t
     for i=1:m
         grad(j)= grad(j)+ (s(i)-y(i))*X(i,j);
     end
     grad(j)= grad(j)/m + (lambda/m)*theta(j);
 end
-
-
-
-
 
 % =============================================================
 
