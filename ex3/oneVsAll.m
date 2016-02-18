@@ -49,16 +49,20 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
-
-
-
-
-
-
-
-
-
-
+%"for"-loop from 1 to K, training each classifier independently
+for c=1:num_labels%K
+    
+    initial_theta = zeros(n + 1, 1);
+    
+    options = optimset('GradObj', 'on', 'MaxIter', 50);
+    
+    % y==c : m-dimensional binary vector of labels y, with ones at
+    % positions where the elements of y are equal to c and zeroes where
+    % they are different
+    [theta] = fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), ...
+        initial_theta, options);
+    
+    all_theta(c,:) = theta;
 
 % =========================================================================
 
