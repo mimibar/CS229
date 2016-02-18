@@ -36,14 +36,25 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+%%%%%%%%%%%%%%%%%%Unregularized cost.
+%Cost (J)
+H=X*theta ;%computing the matrix product Xtheta,
+h=sigmoid(H);
 
+J=-y'*log(h)-(1-y)'*log(1-h);
+J=J/m;
 
+%gradient
+B = h-y;
+grad = X'*B;
+grad=grad/m;
 
+%%%%%%%%%%%%%%%%%%Regularization
+T = theta;
+T(1)=0;%not be regularizing theta0 which is used for the bias term
 
-
-
-
-
+J=J+(lambda/(2*m))*(T'*T);
+grad =grad +(lambda/m)*T;
 
 % =============================================================
 
