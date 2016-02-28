@@ -39,6 +39,29 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+
+a = X; % the X input matrix 
+a = [ones(m, 1) a]; % with a column of 1's added (bias units) as the first column.
+a=a';
+
+z2=Theta1*a; % the product of a1 and ?1
+a2=sigmoid(z2); % passing z2 through g()
+a2=a2';
+a2=[ones(size(a2,1),1) a2]; % add a_0^2
+
+z3 = Theta2*a2'; % the product of a2 and ?2
+a3=sigmoid(z3); % passing z3 through g()
+
+% Expand the 'y' output values into a matrix of single values using an 
+% eye() matrix of size num_labels, with vectorized indexing by 'y'.
+Y = eye(num_labels);
+Y = Y(y,:);
+
+J=-Y'.*log(a3)-(1-Y)'.*log(1-a3);
+J=sum(sum(J));
+J=J/m;
+
+%
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
