@@ -78,15 +78,15 @@ J=J/m;
 %               first time.
 %
 
-% not regularizing theta0 which is used for the bias term, this corresponds 
-% to the first column of each matrix
-T1 = Theta1;
-T1(:,1)=0;
+d3 = a3'-Y;
+d2 = (d3*Theta2(:,2:end))'.*sigmoidGradient(z2);
+d2 = d2; % Note that you should skip or remove d(2)0
 
-T2 = Theta2;
-T2(:,1)=0;
+D1= d2*a';
+D2 = d3'*a2;%a2'*d3;
 
-J=J+(lambda/(2*m))*( sum(sum(T1.*T1))+ sum(sum(T2.*T2)));
+Theta1_grad = D1/m ;
+Theta2_grad = D2/m;
 
 %
 % Part 3: Implement regularization with the cost function and gradients.
@@ -97,11 +97,15 @@ J=J+(lambda/(2*m))*( sum(sum(T1.*T1))+ sum(sum(T2.*T2)));
 %               and Theta2_grad from Part 2.
 %
 
+% not regularizing theta0 which is used for the bias term, this corresponds 
+% to the first column of each matrix
+T1 = Theta1;
+T1(:,1)=0;
 
+T2 = Theta2;
+T2(:,1)=0;
 
-
-
-
+J=J+(lambda/(2*m))*( sum(sum(T1.*T1))+ sum(sum(T2.*T2)));
 
 
 
