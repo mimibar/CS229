@@ -77,6 +77,18 @@ J=J/m;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+% not regularizing theta0 which is used for the bias term, this corresponds 
+% to the first column of each matrix
+T1 = Theta1;
+T1(:,1)=0;
+
+T2 = Theta2;
+T2(:,1)=0;
+
+J=J+(lambda/(2*m))*( sum(sum(T1.*T1))+ sum(sum(T2.*T2)));
+
+%
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
