@@ -53,14 +53,38 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+global theta 
 
 
 
+% One way to compute the training error is to use your existing
+% cost function and set lambda to 0 only when using it to compute the training error
+% and cross validation error.
 
+
+% error_train = arrayfun(@(X, y) lrcf(X, y), X(1:m,2), y);
+% % However, for the cross validation error, you should compute it over the entire cross validation set.
+% error_val   = arrayfun(@(X, y) lrcf(X, y), Xval(1:size(Xval, 1),2), yval);
+v=size(Xval, 1);
+for i = 1:m
+    %You can use the trainLinearReg function to find the theta parameters.
+    % For each value of i, I first calculate the theta value by calling the 
+    % trainLinearReg function. 
+    theta = trainLinearReg(X(1:i, :),y(1:i), lambda);
+    
+    error_train(i) = linearRegCostFunction(X(1:i, :),    y(1:i),    theta, 0);
+    error_val(i)   = linearRegCostFunction(Xval(1:v, :), yval(1:v), theta, 0);      
+end
 
 
 % -------------------------------------------------------------
 
 % =========================================================================
 
+end
+function [j] = lrcf(x,y)
+    l=0; %do not ever use the line of code "lambda = 0". Doing that will 
+    %erase the value of lambda that the submit grader is using to check your code.
+    global theta;
+    j=linearRegCostFunction(x, y, theta, 0);
 end
