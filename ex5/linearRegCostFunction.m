@@ -18,11 +18,25 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
+h=X*theta ;%computing the matrix product Xtheta,
+
+T = theta;
+T(1)=0;%you should not regularize the T0 term.
+
+%Cost (J)
+J=h-y;
+J=J'*J;
+J=J/(2*m);
+J=J+(lambda/(2*m))*(T'*T);
 
 
 
-
-
+%gradient
+B = h-y;
+grad = X'*B;
+grad=grad/m;
+grad =grad +(lambda/m)*T;
+grad = grad(:);
 
 
 
