@@ -99,9 +99,11 @@ while ~isempty(email_contents)
 
 
 
-
-
-
+%https://www.mathworks.com/matlabcentral/answers/84242-find-in-a-cell-array
+i = find(strcmp(vocabList, str))
+if i
+     word_indices = [word_indices ; i]; 
+end
 
 
 
