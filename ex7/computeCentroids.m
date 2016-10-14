@@ -27,11 +27,16 @@ centroids = zeros(K, n);
 %
 
 
-
-
-
-
-
+for k=1:K
+    C=0;%Ck is the set of examples that are assigned to centroid k.
+    for i=1:m
+        if idx(i)==k
+            centroids(k,:) = centroids(k,:)+X(i,:);
+            C=C+1;
+        end
+    end
+    centroids(k,:)=centroids(k,:)/C;
+end
 
 % =============================================================
 
