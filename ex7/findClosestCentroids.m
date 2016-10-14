@@ -21,10 +21,23 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i=1:size(X,1)
+    x=X(i,:);
+    
+    %initilize to first centroid
+    idx(i) = 1;
+    c=centroids(1,:);
+    d=pdist2(x,c);
+    
+    for j=2:size(centroids,1)
+        c=centroids(j,:);
+        if pdist2(x,c) < d
+            idx(i) = j;
+            d=pdist2(x,c);
+        end
+    end
 
-
-
-
+end
 
 
 % =============================================================
