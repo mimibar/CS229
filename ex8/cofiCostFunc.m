@@ -49,7 +49,7 @@ for i=1:num_movies
         end
     end
 end
-J=J/2;
+J=J/2 + (lambda/2)*sum(sum(Theta.^2)) + (lambda/2)*sum(sum(X.^2));
 
 % X gradient is the product of the error factor and the Theta matrix. The 
 % sum is computed automatically by the vector multiplication. Dimensions 
