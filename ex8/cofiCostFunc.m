@@ -62,6 +62,7 @@ for k=1:num_features
                 X_grad(i,k) = X_grad(i,k) + (X(i,:)*Theta(j,:)' - Y(i,j))*Theta(j,k);
             end
         end
+         X_grad(i,k) =  X_grad(i,k)+lambda*X(i,k);
     end
 end
 
@@ -69,13 +70,14 @@ end
 % transposition may be needed. The sum is computed automatically by the 
 % vector multiplication. Dimensions are (users x features)
 for k=1:num_features
-    for i=1:num_movies
-        for j=1:num_users
+    for j=1:num_users
+        for i=1:num_movies
             %you should be accumulating the cost for user j and movie i only...
             if R(i,j)==1
                 Theta_grad(j,k) = Theta_grad(j,k) + (X(i,:)*Theta(j,:)' - Y(i,j))*X(i,k);
             end
         end
+        Theta_grad(j,k) =  Theta_grad(j,k) + lambda*Theta(j,k);
     end
 end
 % =============================================================
