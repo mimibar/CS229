@@ -51,7 +51,33 @@ for i=1:num_movies
 end
 J=J/2;
 
+% X gradient is the product of the error factor and the Theta matrix. The 
+% sum is computed automatically by the vector multiplication. Dimensions 
+% are (movies x features)
+for k=1:num_features
+    for i=1:num_movies
+        for j=1:num_users
+            %you should be accumulating the cost for user j and movie i only...
+            if R(i,j)==1
+                X_grad(i,k) = X_grad(i,k) + (X(i,:)*Theta(j,:)' - Y(i,j))*Theta(j,k);
+            end
+        end
+    end
+end
 
+% Theta gradient is the product of the error factor and the X matrix. A 
+% transposition may be needed. The sum is computed automatically by the 
+% vector multiplication. Dimensions are (users x features)
+for k=1:num_features
+    for i=1:num_movies
+        for j=1:num_users
+            %you should be accumulating the cost for user j and movie i only...
+            if R(i,j)==1
+                Theta_grad(j,k) = Theta_grad(j,k) + (X(i,:)*Theta(j,:)' - Y(i,j))*X(i,k);
+            end
+        end
+    end
+end
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
