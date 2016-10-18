@@ -40,19 +40,16 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+% TODO vectorized implementation to compute J
+for i=1:num_movies
+    for j=1:num_users
+        %you should be accumulating the cost for user j and movie i only... 
+        if R(i,j)==1
+            J = J + (X(i,:)*Theta(j,:)' - Y(i,j))^2;
+        end
+    end
+end
+J=J/2;
 
 
 % =============================================================
